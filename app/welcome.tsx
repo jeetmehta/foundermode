@@ -1,51 +1,46 @@
-import { useNavigation } from "@react-navigation/native";
+import { Link } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const WelcomeScreen: React.FC = () => {
-  const navigation = useNavigation();
-
+export default function Welcome() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <Text style={styles.title}>Welcome builders</Text>
       <Text style={styles.subtitle}>
         Founder mode is the alarm clock for you.
       </Text>
-
       <View style={styles.stepsContainer}>
         <Text style={styles.step}>1. Create an account</Text>
-        <Text style={styles.step}>
-          2. Connect your earnings (your data is private and read-only)
-        </Text>
+        <Text style={styles.step}>2. Connect your earnings</Text>
         <Text style={styles.step}>3. Set your alarm</Text>
       </View>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("CreateAccount")}
-      >
-        <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, styles.loginButton]}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-    </View>
+      <Link href="/sign-up" asChild>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Get Started</Text>
+        </TouchableOpacity>
+      </Link>
+      <Link href="/sign-in" asChild>
+        <TouchableOpacity style={[styles.button, styles.loginButton]}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      </Link>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#000",
     padding: 20,
-    justifyContent: "center",
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#fff",
     marginBottom: 10,
@@ -54,8 +49,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#888",
     marginBottom: 30,
+    textAlign: "center",
   },
   stepsContainer: {
+    alignSelf: "stretch",
     marginBottom: 30,
   },
   step: {
@@ -67,8 +64,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#333",
     padding: 15,
     borderRadius: 5,
+    width: "100%",
     alignItems: "center",
     marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "center",
   },
   loginButton: {
     backgroundColor: "#000",
@@ -77,8 +77,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  buttonIcon: {
+    marginRight: 10,
+  },
+  orText: {
+    color: "#fff",
+    fontSize: 16,
+    marginVertical: 10,
   },
 });
-
-export default WelcomeScreen;

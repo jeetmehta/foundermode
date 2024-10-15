@@ -4,34 +4,32 @@
     "slug": "FounderMode",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon-2.png",
+    "icon": "./assets/images/icon-2.webp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       [
         "expo-notifications",
         {
-          "icon": "./local/path/to/your/app-icon.png",
+          "icon": "./assets/images/icon-2.webp",
           "color": "#ffffff",
-          "sounds": [
-            "./local/path/to/your/notification-sound.wav"
-          ]
+          "sounds": ["./local/path/to/your/notification-sound.wav"]
         }
       ],
       "expo-secure-store"

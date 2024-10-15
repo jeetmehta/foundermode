@@ -1,12 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const FinishScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleFinish = () => {
-    navigation.navigate("Alarm");
+    router.push("/home");
   };
 
   return (

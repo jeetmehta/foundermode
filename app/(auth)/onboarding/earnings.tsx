@@ -1,14 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const ConnectEarningsScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleConnect = (source: string) => {
     // Here you would typically implement the connection logic
     console.log(`Connecting to ${source}`);
-    navigation.navigate("Finish");
+    router.push("/onboarding/finish");
   };
 
   return (

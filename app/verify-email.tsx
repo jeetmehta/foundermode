@@ -1,6 +1,6 @@
 import { useSignUp } from "@clerk/clerk-expo";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
@@ -11,29 +11,29 @@ import {
   View,
 } from "react-native";
 
-const VerifyPhoneScreen: React.FC = () => {
+const VerifyEmailScreen: React.FC = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const { signUp, setActive } = useSignUp();
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleVerification = async () => {
     if (!signUp) {
       return;
     }
     try {
-      const completeSignUp = await signUp.attemptPhoneNumberVerification({
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
         code: verificationCode,
       });
 
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        navigation.navigate("NameInput");
+        router.push("/onboarding/name");
       } else {
         console.log("Sign up status:", completeSignUp.status);
         Alert.alert("Verification Failed", "Please try again.");
       }
     } catch (err: any) {
-      console.error("Error during phone verification:", err);
+      console.error("Error during email verification:", err);
       Alert.alert(
         "Verification Error",
         err.message || "An error occurred during verification."
@@ -46,10 +46,10 @@ const VerifyPhoneScreen: React.FC = () => {
       return;
     }
     try {
-      await signUp.preparePhoneNumberVerification();
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       Alert.alert(
         "Code Sent",
-        "A new verification code has been sent to your phone."
+        "A new verification code has been sent to your email."
       );
     } catch (err: any) {
       console.error("Error resending code:", err);
@@ -59,15 +59,12 @@ const VerifyPhoneScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Ionicons name="arrow-back" size={24} color="#fff" />
       </TouchableOpacity>
-      <Text style={styles.title}>Verify Your Phone</Text>
+      <Text style={styles.title}>Verify Your Email</Text>
       <Text style={styles.subtitle}>
-        Enter the verification code sent to your phone.
+        Enter the verification code sent to your email.
       </Text>
       <TextInput
         style={styles.input}
@@ -100,6 +97,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 10,
   },
+  backButton: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    zIndex: 1,
+  },
   subtitle: {
     fontSize: 16,
     color: "#888",
@@ -114,12 +117,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
     fontSize: 16,
-  },
-  backButton: {
-    position: "absolute",
-    top: 40,
-    left: 20,
-    zIndex: 1,
   },
   button: {
     backgroundColor: "#333",
@@ -142,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VerifyPhoneScreen;
+export default VerifyEmailScreen;

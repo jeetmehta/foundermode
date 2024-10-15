@@ -1,38 +1,36 @@
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const NameInputScreen: React.FC = () => {
+export default function NameScreen() {
   const [name, setName] = useState("");
-  const navigation = useNavigation();
+  const router = useRouter();
 
-  const handleContinue = () => {
+  const onContinue = () => {
     // Here you would typically save the name to the user's profile
-    navigation.navigate("ConnectEarnings");
+    // For now, we'll just move to the next screen
+    router.push("/onboarding/earnings");
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <Text style={styles.title}>What's your name?</Text>
       <TextInput
         style={styles.input}
-        value={name}
-        onChangeText={setName}
         placeholder="Enter your name"
         placeholderTextColor="#888"
+        value={name}
+        onChangeText={setName}
       />
-      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+      <TouchableOpacity style={styles.button} onPress={onContinue}>
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -40,31 +38,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000",
+    padding: 20,
   },
   title: {
     fontSize: 24,
+    fontWeight: "bold",
     color: "#fff",
     marginBottom: 20,
   },
   input: {
-    width: "80%",
-    height: 40,
+    width: "100%",
+    height: 50,
     backgroundColor: "#333",
-    color: "#fff",
-    paddingHorizontal: 10,
+    borderRadius: 5,
     marginBottom: 20,
+    paddingHorizontal: 10,
+    color: "#fff",
   },
   button: {
-    backgroundColor: "#333",
+    backgroundColor: "#444",
     padding: 15,
     borderRadius: 5,
-    width: "80%",
+    width: "100%",
     alignItems: "center",
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
+    fontWeight: "bold",
   },
 });
-
-export default NameInputScreen;

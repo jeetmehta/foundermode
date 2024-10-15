@@ -1,3 +1,11 @@
+import {
+  cancelAlarm,
+  getScheduledAlarm,
+  scheduleAlarm,
+  setupNotifications,
+} from "@/services/alarmService";
+import { fetchEarnings } from "@/services/earningsService";
+import { useAuth } from "@clerk/clerk-expo";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useEffect, useState } from "react";
 import {
@@ -8,21 +16,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  cancelAlarm,
-  getScheduledAlarm,
-  scheduleAlarm,
-  setupNotifications,
-} from "../services/alarmService";
-import { fetchEarnings } from "../services/earningsService";
 
-const AlarmScreen: React.FC = () => {
+export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [earnings, setEarnings] = useState(0);
   const [quote, setQuote] = useState("");
   const [alarmTime, setAlarmTime] = useState(new Date());
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [isAlarmSet, setIsAlarmSet] = useState(false);
+
+  const { signOut } = useAuth();
+
+  const handleSignOut = () => {
+    signOut();
+  };
 
   useEffect(() => {
     setupNotifications();
@@ -99,6 +106,12 @@ const AlarmScreen: React.FC = () => {
                 textColor="black"
               />
               <TouchableOpacity
+                style={styles.button}
+                onPress={() => setShowTimePicker(false)}
+              >
+                <Text style={styles.textStyle}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
                 onPress={handleSetAlarm}
               >
@@ -126,6 +139,9 @@ const AlarmScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={handleSignOut}>
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
       <Text style={styles.timeText}>{currentTime.toLocaleTimeString()}</Text>
       <Text style={styles.earningsText}>${earnings.toFixed(2)}</Text>
       <Text style={styles.quoteText}>{quote}</Text>
@@ -155,7 +171,7 @@ const AlarmScreen: React.FC = () => {
       {renderTimePicker()}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -233,5 +249,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default AlarmScreen;
